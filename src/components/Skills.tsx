@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Code, Layout, Database, Wrench, ShieldAlert, Sparkles, Search } from 'lucide-react';
+import { Code, Layout, Database, Wrench, Sparkles, Search } from 'lucide-react';
 
 export default function Skills() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
