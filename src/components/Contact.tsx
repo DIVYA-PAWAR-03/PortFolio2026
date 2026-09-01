@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import SpotlightCard from './SpotlightCard';
 
 const GithubIcon = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -13,7 +14,11 @@ const LinkedinIcon = ({ size = 18 }: { size?: number }) => (
   </svg>
 );
 
-export default function Contact() {
+interface ContactProps {
+  onShowToast: (msg: string) => void;
+}
+
+export default function Contact({ onShowToast }: ContactProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -62,8 +67,9 @@ export default function Contact() {
       setTimeout(() => {
         setIsSubmitting(false);
         setIsSubmitted(true);
+        onShowToast("Message sent successfully!");
         setFormData({ name: '', email: '', subject: '', message: '' });
-      }, 1200);
+      }, 1000);
     }
   };
 
@@ -76,132 +82,136 @@ export default function Contact() {
 
       <div className="contact-grid">
         {/* Info Column */}
-        <div className="contact-info-card glass-card reveal">
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 600 }}>Contact Info</h3>
-          
-          <div className="info-list">
-            <a href="mailto:divyapawar8791@gmail.com" className="info-item">
-              <div className="info-icon-box">
-                <Mail size={18} />
-              </div>
-              <div>
-                <span className="info-label">Email</span>
-                <span className="info-value">divyapawar8791@gmail.com</span>
-              </div>
-            </a>
+        <SpotlightCard className="reveal">
+          <div style={{ padding: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 600 }}>Contact Channels</h3>
+            
+            <div className="info-list">
+              <a href="mailto:divyapawar8791@gmail.com" className="info-item">
+                <div className="info-icon-box">
+                  <Mail size={18} />
+                </div>
+                <div>
+                  <span className="info-label">Email</span>
+                  <span className="info-value">divyapawar8791@gmail.com</span>
+                </div>
+              </a>
 
-            <a href="tel:+919730473315" className="info-item">
-              <div className="info-icon-box">
-                <Phone size={18} />
-              </div>
-              <div>
-                <span className="info-label">Phone</span>
-                <span className="info-value">+91 9730473315</span>
-              </div>
-            </a>
+              <a href="tel:+919730473315" className="info-item">
+                <div className="info-icon-box">
+                  <Phone size={18} />
+                </div>
+                <div>
+                  <span className="info-label">Phone</span>
+                  <span className="info-value">+91 9730473315</span>
+                </div>
+              </a>
 
-            <div className="info-item">
-              <div className="info-icon-box">
-                <MapPin size={18} />
+              <div className="info-item">
+                <div className="info-icon-box">
+                  <MapPin size={18} />
+                </div>
+                <div>
+                  <span className="info-label">Location</span>
+                  <span className="info-value">Pune, Maharashtra, IN</span>
+                </div>
               </div>
-              <div>
-                <span className="info-label">Location</span>
-                <span className="info-value">Pune, Maharashtra, IN</span>
+            </div>
+
+            <div style={{ marginTop: '2rem' }}>
+              <h4 style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.75rem', fontWeight: 500 }}>Social Profiles</h4>
+              <div style={{ display: 'flex', gap: '0.75rem' }}>
+                <a 
+                  href="https://linkedin.com/in/Divyapawar31" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="social-icon-btn"
+                  title="LinkedIn"
+                >
+                  <LinkedinIcon size={18} />
+                </a>
+                <a 
+                  href="https://github.com/DIVYA-PAWAR-03" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="social-icon-btn"
+                  title="GitHub"
+                >
+                  <GithubIcon size={18} />
+                </a>
               </div>
             </div>
           </div>
-
-          <div style={{ marginTop: '2rem' }}>
-            <h4 style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.75rem', fontWeight: 500 }}>Social Profiles</h4>
-            <div style={{ display: 'flex', gap: '0.75rem' }}>
-              <a 
-                href="https://linkedin.com/in/Divyapawar31" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="social-icon-btn"
-                title="LinkedIn"
-              >
-                <LinkedinIcon size={18} />
-              </a>
-              <a 
-                href="https://github.com/DIVYA-PAWAR-03" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="social-icon-btn"
-                title="GitHub"
-              >
-                <GithubIcon size={18} />
-              </a>
-            </div>
-          </div>
-        </div>
+        </SpotlightCard>
 
         {/* Form Column */}
-        <div className="contact-form-card glass-card reveal">
-          {isSubmitted ? (
-            <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
-              <CheckCircle2 size={48} className="accent-link" style={{ margin: '0 auto 1rem' }} />
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>Message Sent!</h3>
-              <p style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>Thank you for reaching out. I will get back to you shortly.</p>
-              <button 
-                onClick={() => setIsSubmitted(false)} 
-                className="btn btn-secondary"
-                style={{ marginTop: '1.5rem' }}
-              >
-                Send Another Message
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="name">Your Name</label>
-                <input 
-                  type="text" 
-                  id="name" 
-                  name="name" 
-                  value={formData.name} 
-                  onChange={handleChange}
-                  placeholder="John Doe"
-                />
-                {errors.name && <span style={{ color: '#ef4444', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}><AlertCircle size={12} /> {errors.name}</span>}
+        <SpotlightCard className="reveal">
+          <div style={{ padding: '1.5rem' }}>
+            {isSubmitted ? (
+              <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
+                <CheckCircle2 size={48} className="accent-link" style={{ margin: '0 auto 1rem' }} />
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>Message Sent!</h3>
+                <p style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>Thank you for reaching out. I will get back to you shortly.</p>
+                <button 
+                  onClick={() => setIsSubmitted(false)} 
+                  className="btn btn-secondary"
+                  style={{ marginTop: '1.5rem' }}
+                >
+                  Send Another Message
+                </button>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="name">Your Name</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    value={formData.name} 
+                    onChange={handleChange}
+                    placeholder="John Doe"
+                  />
+                  {errors.name && <span style={{ color: '#ef4444', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}><AlertCircle size={12} /> {errors.name}</span>}
+                </div>
 
-              <div className="form-group">
-                <label htmlFor="email">Email Address</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email" 
-                  value={formData.email} 
-                  onChange={handleChange}
-                  placeholder="john@example.com"
-                />
-                {errors.email && <span style={{ color: '#ef4444', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}><AlertCircle size={12} /> {errors.email}</span>}
-              </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email Address</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    value={formData.email} 
+                    onChange={handleChange}
+                    placeholder="john@example.com"
+                  />
+                  {errors.email && <span style={{ color: '#ef4444', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}><AlertCircle size={12} /> {errors.email}</span>}
+                </div>
 
-              <div className="form-group">
-                <label htmlFor="message">Message</label>
-                <textarea 
-                  id="message" 
-                  name="message" 
-                  rows={4}
-                  value={formData.message} 
-                  onChange={handleChange}
-                  placeholder="Tell me about your project..."
-                ></textarea>
-                {errors.message && <span style={{ color: '#ef4444', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}><AlertCircle size={12} /> {errors.message}</span>}
-              </div>
+                <div className="form-group">
+                  <label htmlFor="message">Message</label>
+                  <textarea 
+                    id="message" 
+                    name="message" 
+                    rows={4}
+                    value={formData.message} 
+                    onChange={handleChange}
+                    placeholder="Tell me about your project..."
+                  ></textarea>
+                  {errors.message && <span style={{ color: '#ef4444', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}><AlertCircle size={12} /> {errors.message}</span>}
+                </div>
 
-              <button 
-                type="submit" 
-                className="btn btn-primary form-submit-btn" 
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Sending...' : <>Send Message <Send size={15} /></>}
-              </button>
-            </form>
-          )}
-        </div>
+                <button 
+                  type="submit" 
+                  className="btn btn-primary form-submit-btn" 
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Sending...' : <>Send Message <Send size={15} /></>}
+                </button>
+              </form>
+            )}
+          </div>
+        </SpotlightCard>
       </div>
     </section>
   );

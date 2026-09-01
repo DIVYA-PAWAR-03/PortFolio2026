@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Download, Mail, CheckCircle2, GraduationCap, Code2, Trophy, Copy, Check } from 'lucide-react';
 import profileImg from '../assets/profile.png';
+import TerminalWidget from './TerminalWidget';
 
 const GithubIcon = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -14,20 +16,40 @@ const LinkedinIcon = ({ size = 18 }: { size?: number }) => (
   </svg>
 );
 
-export default function Hero() {
+interface HeroProps {
+  onShowToast: (msg: string) => void;
+}
+
+export default function Hero({ onShowToast }: HeroProps) {
   const [copied, setCopied] = useState(false);
+  const [roleIndex, setRoleIndex] = useState(0);
+  const roles = ["Software Engineer", "React & Next.js Specialist", "UI/UX Architect", "AI Systems Builder"];
   const email = "divyapawar8791@gmail.com";
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setRoleIndex((prev) => (prev + 1) % roles.length);
+    }, 2800);
+    return () => clearInterval(timer);
+  }, []);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(email);
     setCopied(true);
+    onShowToast("Email address copied to clipboard!");
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
     <section id="home" className="hero-container section">
       <div className="hero-grid">
-        <div className="hero-profile-row reveal">
+        {/* Profile Card Row */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="hero-profile-row"
+        >
           <div className="avatar-frame">
             <img 
               src={profileImg} 
@@ -40,7 +62,24 @@ export default function Hero() {
               Divya Pawar
               <CheckCircle2 size={20} className="verified-icon" aria-label="Verified Engineer" />
             </h1>
-            <p className="hero-role">Software Engineer & Frontend Specialist</p>
+
+            {/* Dynamic Role Flipper */}
+            <div style={{ height: '26px', overflow: 'hidden', position: 'relative', marginTop: '2px' }}>
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={roleIndex}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25 }}
+                  className="hero-role"
+                  style={{ position: 'absolute', inset: 0 }}
+                >
+                  {roles[roleIndex]}
+                </motion.p>
+              </AnimatePresence>
+            </div>
+
             <button 
               type="button" 
               onClick={handleCopyEmail} 
@@ -52,9 +91,15 @@ export default function Hero() {
               {copied ? <Check size={14} className="accent-link" /> : <Copy size={13} />}
             </button>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="hero-content reveal">
+        {/* Intro text */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="hero-content"
+        >
           <p className="hero-description">
             Computer Science Engineering student (SGPA: 9.78) with hands-on experience building scalable React.js applications, custom web dashboards, and performance-optimized frontends. Focused on clean code, responsive layout systems, and intuitive user experiences.
           </p>
@@ -66,7 +111,7 @@ export default function Hero() {
             </div>
             <div className="stat-pill">
               <Code2 size={15} />
-              <span><strong>React / Next.js</strong> Developer</span>
+              <span><strong>React / Next.js</strong> Specialist</span>
             </div>
             <div className="stat-pill">
               <Trophy size={15} />
@@ -82,6 +127,7 @@ export default function Hero() {
               href="/Divya_Pawar_Resume.pdf" 
               download="Divya_Pawar_Resume.pdf" 
               className="btn btn-secondary"
+              onClick={() => onShowToast("Resume download started!")}
             >
               Get Resume <Download size={16} />
             </a>
@@ -109,7 +155,10 @@ export default function Hero() {
               </a>
             </div>
           </div>
-        </div>
+
+          {/* Interactive Code Terminal Playground */}
+          <TerminalWidget onShowToast={onShowToast} />
+        </motion.div>
       </div>
     </section>
   );

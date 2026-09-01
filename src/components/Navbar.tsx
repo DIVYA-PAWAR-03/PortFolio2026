@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon, Command } from 'lucide-react';
 
 interface NavbarProps {
   currentTheme: 'dark' | 'light';
   toggleTheme: () => void;
+  onOpenCommandPalette: () => void;
 }
 
-export default function Navbar({ currentTheme, toggleTheme }: NavbarProps) {
+export default function Navbar({ currentTheme, toggleTheme, onOpenCommandPalette }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -46,6 +47,9 @@ export default function Navbar({ currentTheme, toggleTheme }: NavbarProps) {
             <a href="#projects" className="nav-link" onClick={closeMobileMenu}>Projects</a>
           </li>
           <li>
+            <a href="#testimonials" className="nav-link" onClick={closeMobileMenu}>Impact</a>
+          </li>
+          <li>
             <a href="#freelance" className="nav-link" onClick={closeMobileMenu}>Freelance</a>
           </li>
           <li>
@@ -54,6 +58,18 @@ export default function Navbar({ currentTheme, toggleTheme }: NavbarProps) {
         </ul>
 
         <div className="nav-actions">
+          {/* Command Palette Button */}
+          <button
+            onClick={onOpenCommandPalette}
+            className="theme-toggle"
+            aria-label="Open Command Palette"
+            title="Open Command Palette (⌘K)"
+            style={{ width: 'auto', padding: '0 10px', borderRadius: '8px', fontSize: '0.8rem', gap: '5px' }}
+          >
+            <Command size={14} />
+            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>⌘K</span>
+          </button>
+
           <button 
             onClick={toggleTheme} 
             className="theme-toggle" 

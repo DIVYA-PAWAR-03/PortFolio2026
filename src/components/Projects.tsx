@@ -1,5 +1,9 @@
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, ChevronDown, ChevronUp, Star, GitFork, Sparkles } from 'lucide-react';
+import SpotlightCard from './SpotlightCard';
+import ProjectModal from './ProjectModal';
+import type { ProjectDetail } from './ProjectModal';
 
 const GithubIcon = ({ size = 14 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -7,7 +11,7 @@ const GithubIcon = ({ size = 14 }: { size?: number }) => (
   </svg>
 );
 
-const allProjects = [
+const allProjects: (ProjectDetail & { category: string; featured: boolean; isForkStat?: boolean })[] = [
   {
     title: "Bloombox – Digital Bouquet Editor",
     description: "Canva-inspired creative bouquet builder featuring drag-and-drop mechanics, customization of envelopes, letters, and custom floral arrangements.",
@@ -15,6 +19,7 @@ const allProjects = [
     liveLink: "https://bloom-box-five.vercel.app",
     githubLink: "https://github.com/DIVYA-PAWAR-03/BloomBox",
     stats: ["45% UX improvement", "60% design time reduction"],
+    category: "web",
     featured: true
   },
   {
@@ -24,6 +29,7 @@ const allProjects = [
     liveLink: "https://linkedin-post-maker.vercel.app",
     githubLink: "https://github.com/DIVYA-PAWAR-03/linkedin-post-maker",
     stats: ["40% faster content generation", "+30% shareability"],
+    category: "web",
     featured: true
   },
   {
@@ -33,6 +39,7 @@ const allProjects = [
     liveLink: "https://frontend-migraine.vercel.app",
     githubLink: "https://github.com/DIVYA-PAWAR-03/Frontend-Migraine",
     stats: ["High predictive accuracy", "NLP dataset labeling"],
+    category: "ai",
     featured: true
   },
   {
@@ -42,6 +49,7 @@ const allProjects = [
     liveLink: "https://free-minimal-resume-builderr.vercel.app",
     githubLink: "https://github.com/DIVYA-PAWAR-03/free-minimal-resume-build",
     stats: ["50% resume creation boost", "+35% device accessibility"],
+    category: "tools",
     featured: true
   },
   {
@@ -52,6 +60,7 @@ const allProjects = [
     githubLink: "https://github.com/DIVYA-PAWAR-03/BraveSpeak",
     stats: ["1 Star", "2 Forks", "Hacktoberfest 2025"],
     isForkStat: true,
+    category: "web",
     featured: false
   },
   {
@@ -62,14 +71,29 @@ const allProjects = [
     githubLink: "https://github.com/DIVYA-PAWAR-03/Magic-notes",
     stats: ["2 Forks", "MIT License", "Hacktoberfest 2024"],
     isForkStat: true,
+    category: "tools",
     featured: false
   }
 ];
 
 export default function Projects() {
+  const [filter, setFilter] = useState<'all' | 'web' | 'ai' | 'tools'>('all');
   const [showAll, setShowAll] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<ProjectDetail | null>(null);
+
+  const categories = [
+    { id: 'all', label: 'All Projects' },
+    { id: 'web', label: 'Web Applications' },
+    { id: 'ai', label: 'AI & Machine Learning' },
+    { id: 'tools', label: 'Developer Tools' },
+  ];
+
+  const filteredProjects = filter === 'all' 
+    ? allProjects 
+    : allProjects.filter(p => p.category === filter);
+
   const INITIAL_COUNT = 4;
-  const visibleProjects = showAll ? allProjects : allProjects.slice(0, INITIAL_COUNT);
+  const visibleProjects = showAll ? filteredProjects : filteredProjects.slice(0, INITIAL_COUNT);
 
   return (
     <section id="projects" className="section">
@@ -78,77 +102,110 @@ export default function Projects() {
         <h2>Featured Projects</h2>
       </div>
 
-      <div className="projects-grid">
-        {visibleProjects.map((proj, index) => (
-          <div
-            key={proj.title}
-            className="project-card glass-card reveal"
-            style={{ animationDelay: `${index * 60}ms` }}
+      {/* Filter Tabs */}
+      <div className="skills-filter reveal" style={{ marginBottom: '1.75rem' }}>
+        {categories.map((cat) => (
+          <button
+            key={cat.id}
+            onClick={() => setFilter(cat.id as any)}
+            className={`filter-btn ${filter === cat.id ? 'active' : ''}`}
+            style={{ position: 'relative' }}
           >
-            <div className="project-header">
-              <h3 className="project-title">{proj.title}</h3>
-              <div className="project-links">
-                {proj.liveLink && (
-                  <a
-                    href={proj.liveLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="project-link-icon"
-                    title="Live Demo"
-                  >
-                    <ExternalLink size={16} />
-                  </a>
-                )}
-                <a
-                  href={proj.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="project-link-icon"
-                  title="Source Code"
-                >
-                  <GithubIcon size={16} />
-                </a>
-              </div>
-            </div>
-
-            <p className="project-desc">{proj.description}</p>
-
-            <div className="project-stats">
-              {proj.stats.map((stat, sIdx) => (
-                <span key={sIdx} className="impact-pill">
-                  {proj.isForkStat && sIdx === 0 ? (
-                    <Star size={11} style={{ display: 'inline', marginRight: '3px' }} />
-                  ) : proj.isForkStat && sIdx === 1 ? (
-                    <GitFork size={11} style={{ display: 'inline', marginRight: '3px' }} />
-                  ) : (
-                    <Sparkles size={11} style={{ display: 'inline', marginRight: '3px' }} />
-                  )}
-                  {stat}
-                </span>
-              ))}
-            </div>
-
-            <div className="project-tags">
-              {proj.tags.map((tag, tIdx) => (
-                <span key={tIdx} className="project-tag">{tag}</span>
-              ))}
-            </div>
-          </div>
+            <span>{cat.label}</span>
+          </button>
         ))}
       </div>
 
+      {/* Projects Grid */}
+      <motion.div layout className="projects-grid">
+        <AnimatePresence mode="popLayout">
+          {visibleProjects.map((proj) => (
+            <motion.div
+              key={proj.title}
+              layout
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+            >
+              <SpotlightCard
+                onClick={() => setSelectedProject(proj)}
+                style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+              >
+                <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+                  <div>
+                    <div className="project-header">
+                      <h3 className="project-title">{proj.title}</h3>
+                      <div className="project-links" onClick={(e) => e.stopPropagation()}>
+                        {proj.liveLink && (
+                          <a
+                            href={proj.liveLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-link-icon"
+                            title="Live Demo"
+                          >
+                            <ExternalLink size={16} />
+                          </a>
+                        )}
+                        <a
+                          href={proj.githubLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="project-link-icon"
+                          title="Source Code"
+                        >
+                          <GithubIcon size={16} />
+                        </a>
+                      </div>
+                    </div>
+
+                    <p className="project-desc">{proj.description}</p>
+                  </div>
+
+                  <div>
+                    <div className="project-stats" style={{ marginBottom: '0.85rem' }}>
+                      {proj.stats?.map((stat, sIdx) => (
+                        <span key={sIdx} className="impact-pill">
+                          {proj.isForkStat && sIdx === 0 ? (
+                            <Star size={11} style={{ display: 'inline', marginRight: '3px' }} />
+                          ) : proj.isForkStat && sIdx === 1 ? (
+                            <GitFork size={11} style={{ display: 'inline', marginRight: '3px' }} />
+                          ) : (
+                            <Sparkles size={11} style={{ display: 'inline', marginRight: '3px' }} />
+                          )}
+                          {stat}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="project-tags">
+                      {proj.tags.map((tag, tIdx) => (
+                        <span key={tIdx} className="project-tag">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </SpotlightCard>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
+
       {/* Actions */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '2rem', justifyContent: 'center' }}>
-        <button
-          className="btn btn-secondary"
-          onClick={() => setShowAll(!showAll)}
-        >
-          {showAll ? (
-            <><ChevronUp size={16} /> Show Less</>
-          ) : (
-            <><ChevronDown size={16} /> Show More ({allProjects.length - INITIAL_COUNT} more)</>
-          )}
-        </button>
+        {filteredProjects.length > INITIAL_COUNT && (
+          <button
+            className="btn btn-secondary"
+            onClick={() => setShowAll(!showAll)}
+          >
+            {showAll ? (
+              <><ChevronUp size={16} /> Show Less</>
+            ) : (
+              <><ChevronDown size={16} /> Show More ({filteredProjects.length - INITIAL_COUNT} more)</>
+            )}
+          </button>
+        )}
 
         <a
           href="https://github.com/DIVYA-PAWAR-03"
@@ -156,9 +213,15 @@ export default function Projects() {
           rel="noopener noreferrer"
           className="btn btn-primary"
         >
-          <GithubIcon size={16} /> All Projects on GitHub
+          <GithubIcon size={16} /> All Repositories on GitHub
         </a>
       </div>
+
+      {/* Case Study Detail Modal Drawer */}
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   );
 }
