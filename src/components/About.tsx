@@ -1,4 +1,4 @@
-import { BookOpen, GraduationCap, Award, Landmark } from 'lucide-react';
+import { BookOpen, GraduationCap, Award, Landmark, MapPin, Trophy } from 'lucide-react';
 
 export default function About() {
   const education = [
@@ -8,7 +8,7 @@ export default function About() {
       location: "Pune, IN",
       period: "Jul 2026 Graduating",
       grade: "SGPA: 9.78",
-      details: "Focusing on Software Engineering, Advanced Web Technologies, Database Systems, and Algorithms.",
+      details: "Focusing on Software Engineering, Web Architecture, Database Systems, and Algorithms.",
       icon: <GraduationCap size={18} />
     },
     {
@@ -26,7 +26,7 @@ export default function About() {
       location: "A.nagar, IN",
       period: "Mar 2019 Completed",
       grade: "Percentage: 81.20%",
-      details: "Completed high school secondary education with strong performance in Mathematics and Science.",
+      details: "Completed secondary school education with strong performance in Mathematics and Science.",
       icon: <BookOpen size={18} />
     }
   ];
@@ -40,68 +40,63 @@ export default function About() {
     {
       title: "Smart India Hackathon (SIH) 2024",
       role: "Participant",
-      desc: "Developed a functional solution within a strict 36-hour timeline, collaborating with backend and frontend teammates."
+      desc: "Developed a functional web solution within a strict 36-hour hackathon timeline."
     }
   ];
 
   return (
     <section id="about" className="section">
-      <h2 className="reveal">Education & Achievements</h2>
+      <div className="reveal">
+        <div className="section-tag">Education & Milestones</div>
+        <h2>Academic Roadmap</h2>
+      </div>
       
-      <div className="about-grid">
-        {/* Education Timeline */}
-        <div className="education-column reveal">
-          <h3 className="section-subtitle">Academic Roadmap</h3>
-          <div className="timeline">
-            {education.map((item, index) => (
-              <div key={index} className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-content">
-                  <div className="timeline-header">
-                    <div>
-                      <h4 className="timeline-title">{item.degree}</h4>
-                      <span className="timeline-org">{item.institution}</span>
-                    </div>
-                    <div className="timeline-meta">
-                      <span className="timeline-date">{item.period}</span>
-                      <span className="timeline-grade">{item.grade}</span>
-                    </div>
-                  </div>
-                  <p className="timeline-desc">{item.details}</p>
-                  <div className="timeline-location">📍 {item.location}</div>
+      <div className="timeline reveal">
+        {education.map((item, index) => (
+          <div key={index} className="timeline-item">
+            <div className="timeline-icon">{item.icon}</div>
+            <div className="timeline-content">
+              <div className="timeline-header">
+                <div>
+                  <h3 className="timeline-title">{item.degree}</h3>
+                  <span className="timeline-org">{item.institution}</span>
+                </div>
+                <div className="timeline-meta">
+                  <div>{item.period}</div>
+                  <div className="accent-link">{item.grade}</div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Achievements Side Column */}
-        <div className="achievements-column reveal">
-          <h3 className="section-subtitle">Milestones & Competitions</h3>
-          
-          <div className="achievements-list">
-            {achievements.map((item, index) => (
-              <div key={index} className="achievement-card glass-card">
-                <div className="achievement-header">
-                  <div className="achievement-icon">
-                    <Award size={24} className="accent-glow" />
-                  </div>
-                  <div>
-                    <h4 className="achievement-title">{item.title}</h4>
-                    <span className="achievement-badge">{item.role}</span>
-                  </div>
-                </div>
-                <p className="achievement-desc">{item.desc}</p>
+              <p className="timeline-desc">{item.details}</p>
+              <div className="timeline-impacts">
+                <span className="impact-pill">
+                  <MapPin size={12} style={{ display: 'inline', marginRight: '4px' }} />
+                  {item.location}
+                </span>
               </div>
-            ))}
+            </div>
           </div>
+        ))}
+      </div>
 
-          <div className="about-motto-card glass-card">
-            <h4 className="motto-title">My Professional Outlook</h4>
-            <p className="motto-text">
-              "I aim to build high-performance, accessible user interfaces that make software feel intuitive. Balancing academic precision (9.78 SGPA) with practical development experience allows me to tackle complex problems with clean, scalable architectures."
-            </p>
-          </div>
+      <div className="reveal" style={{ marginTop: '3rem' }}>
+        <div className="section-tag">Honors & Competitions</div>
+        <h2>Achievements</h2>
+        
+        <div className="achievements-list">
+          {achievements.map((item, index) => (
+            <div key={index} className="achievement-card glass-card">
+              <div className="achievement-header">
+                <div className="timeline-icon">
+                  <Trophy size={18} />
+                </div>
+                <div>
+                  <h3 className="timeline-title">{item.title}</h3>
+                  <span className="achievement-badge">{item.role}</span>
+                </div>
+              </div>
+              <p className="timeline-desc" style={{ marginTop: '0.5rem' }}>{item.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
