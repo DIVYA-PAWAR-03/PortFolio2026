@@ -1,4 +1,4 @@
-import { Briefcase, Calendar, MapPin, CheckCircle } from 'lucide-react';
+import { Briefcase, Calendar, MapPin, CheckCircle2 } from 'lucide-react';
 
 export default function Experience() {
   const experiences = [
@@ -30,54 +30,51 @@ export default function Experience() {
   return (
     <section id="experience" className="section">
       <div className="reveal">
+        <div className="section-tag">Career Journey</div>
         <h2>Work Experience</h2>
-        <p className="section-description">
-          A review of my internship tenures and hands-on contributions to professional development teams.
-        </p>
       </div>
 
-      <div className="experience-timeline">
+      <div className="timeline reveal">
         {experiences.map((exp, index) => (
-          <div key={index} className="experience-card glass-card reveal">
-            <div className="experience-header-grid">
-              <div className="experience-info">
-                <div className="experience-icon-box">
-                  <Briefcase size={22} />
-                </div>
+          <div key={index} className="timeline-item">
+            <div className="timeline-icon">
+              <Briefcase size={18} />
+            </div>
+            <div className="timeline-content">
+              <div className="timeline-header">
                 <div>
-                  <h3 className="experience-title">{exp.role}</h3>
-                  <span className="experience-company">{exp.company}</span>
+                  <h3 className="timeline-title">{exp.role}</h3>
+                  <span className="timeline-org">{exp.company}</span>
+                </div>
+                <div className="timeline-meta">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'flex-end' }}>
+                    <Calendar size={12} />
+                    <span>{exp.period}</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'flex-end', marginTop: '2px' }}>
+                    <MapPin size={12} />
+                    <span>{exp.location}</span>
+                  </div>
                 </div>
               </div>
-              
-              <div className="experience-meta">
-                <div className="meta-item">
-                  <Calendar size={14} />
-                  <span>{exp.period}</span>
-                </div>
-                <div className="meta-item">
-                  <MapPin size={14} />
-                  <span>{exp.location}</span>
-                </div>
+
+              <div className="timeline-impacts" style={{ marginTop: '0.75rem' }}>
+                {exp.impacts.map((imp, idx) => (
+                  <span key={idx} className="impact-pill">
+                    {imp}
+                  </span>
+                ))}
               </div>
-            </div>
 
-            <div className="experience-impact-pills">
-              {exp.impacts.map((imp, idx) => (
-                <span key={idx} className="impact-pill">
-                  {imp}
-                </span>
-              ))}
+              <ul style={{ listStyle: 'none', marginTop: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {exp.bullets.map((bullet, idx) => (
+                  <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
+                    <CheckCircle2 size={15} className="accent-link" style={{ flexShrink: 0, marginTop: '3px' }} />
+                    <p style={{ fontSize: '0.9rem' }}>{bullet}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
-
-            <ul className="experience-details-list">
-              {exp.bullets.map((bullet, idx) => (
-                <li key={idx} className="details-list-item">
-                  <CheckCircle size={16} className="bullet-icon" />
-                  <p>{bullet}</p>
-                </li>
-              ))}
-            </ul>
           </div>
         ))}
       </div>
