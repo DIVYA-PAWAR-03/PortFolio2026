@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon, Terminal } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 
 interface NavbarProps {
   currentTheme: 'dark' | 'light';
@@ -22,11 +22,10 @@ export default function Navbar({ currentTheme, toggleTheme }: NavbarProps) {
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+    <header className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
         <a href="#home" className="nav-logo">
-          <Terminal size={22} className="float-animation" />
-          <span>Divya.dev</span>
+          <span>DP</span>
         </a>
 
         {/* Desktop Links */}
@@ -35,13 +34,13 @@ export default function Navbar({ currentTheme, toggleTheme }: NavbarProps) {
             <a href="#home" className="nav-link" onClick={closeMobileMenu}>Home</a>
           </li>
           <li>
-            <a href="#about" className="nav-link" onClick={closeMobileMenu}>Education & Achievements</a>
-          </li>
-          <li>
-            <a href="#skills" className="nav-link" onClick={closeMobileMenu}>Skills</a>
+            <a href="#skills" className="nav-link" onClick={closeMobileMenu}>Tech Stack</a>
           </li>
           <li>
             <a href="#experience" className="nav-link" onClick={closeMobileMenu}>Experience</a>
+          </li>
+          <li>
+            <a href="#about" className="nav-link" onClick={closeMobileMenu}>Education</a>
           </li>
           <li>
             <a href="#projects" className="nav-link" onClick={closeMobileMenu}>Projects</a>
@@ -60,7 +59,7 @@ export default function Navbar({ currentTheme, toggleTheme }: NavbarProps) {
             className="theme-toggle" 
             aria-label="Toggle visual theme"
           >
-            {currentTheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            {currentTheme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>
           
           <button 
@@ -68,10 +67,10 @@ export default function Navbar({ currentTheme, toggleTheme }: NavbarProps) {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle mobile menu"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
-    </nav>
+    </header>
   );
 }
