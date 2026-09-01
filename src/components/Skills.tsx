@@ -8,38 +8,38 @@ export default function Skills() {
     {
       id: 'frontend',
       title: 'Frontend & UI',
-      icon: <Layout size={20} />,
+      icon: <Layout size={18} />,
       skills: ['React JS', 'Redux', 'Zustand', 'Zod', 'Next.js', 'React Native', 'Tailwind CSS', 'Bootstrap', 'HTML', 'XML', 'JSON']
     },
     {
       id: 'languages',
       title: 'Languages',
-      icon: <Code size={20} />,
+      icon: <Code size={18} />,
       skills: ['TypeScript', 'JavaScript', 'Python', 'C++', 'Java']
     },
     {
       id: 'backend',
       title: 'Backend & Databases',
-      icon: <Database size={20} />,
+      icon: <Database size={18} />,
       skills: ['Node.js', 'Express.js', 'SQL', 'MySQL', 'MongoDB']
     },
     {
       id: 'aiml',
       title: 'AI / ML Capabilities',
-      icon: <Sparkles size={20} />,
+      icon: <Sparkles size={18} />,
       skills: ['Prompt Engineering', 'Data Annotation', 'AI Model Evaluation']
     },
     {
       id: 'seo',
       title: 'SEO & Analytics',
-      icon: <Search size={20} />,
-      skills: ['SEO Principles', 'SEO Web Development', 'Google Analytics', 'Google Search Console']
+      icon: <Search size={18} />,
+      skills: ['SEO Principles', 'SEO Web Development', 'Google Analytics', 'Search Console']
     },
     {
       id: 'tools',
-      title: 'Tools & Platform',
-      icon: <Wrench size={20} />,
-      skills: ['Git', 'GitHub', 'Docker', 'Postman', 'Cursor', 'AWS EC2', 'Agile Methodology', 'Figma', 'Canva', 'WordPress', 'Linux', 'Windows']
+      title: 'Tools & Platforms',
+      icon: <Wrench size={18} />,
+      skills: ['Git', 'GitHub', 'Docker', 'Postman', 'Cursor', 'AWS EC2', 'Agile', 'Figma', 'Linux', 'Windows']
     }
   ];
 
@@ -50,10 +50,8 @@ export default function Skills() {
   return (
     <section id="skills" className="section">
       <div className="reveal">
+        <div className="section-tag">Tech Stack</div>
         <h2>Technical Expertise</h2>
-        <p className="section-description">
-          A comprehensive breakdown of my programming languages, frameworks, developer tools, and specialized technical practices.
-        </p>
       </div>
 
       {/* Tabs / Filter Controls */}
@@ -62,7 +60,7 @@ export default function Skills() {
           className={`filter-btn ${activeCategory === 'all' ? 'active' : ''}`}
           onClick={() => setActiveCategory('all')}
         >
-          All Tech Stack
+          All Stack
         </button>
         {skillCategories.map((cat) => (
           <button
@@ -70,8 +68,8 @@ export default function Skills() {
             className={`filter-btn ${activeCategory === cat.id ? 'active' : ''}`}
             onClick={() => setActiveCategory(cat.id)}
           >
-            <span className="btn-icon-span">{cat.icon}</span>
-            {cat.title}
+            {cat.icon}
+            <span>{cat.title}</span>
           </button>
         ))}
       </div>
@@ -82,7 +80,7 @@ export default function Skills() {
           <div 
             key={cat.id} 
             className="skill-category-card glass-card reveal"
-            style={{ animationDelay: `${index * 100}ms` }}
+            style={{ animationDelay: `${index * 50}ms` }}
           >
             <div className="card-header-with-icon">
               <div className="skill-cat-icon">{cat.icon}</div>
