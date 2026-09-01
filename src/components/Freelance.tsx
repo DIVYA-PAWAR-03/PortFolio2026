@@ -1,4 +1,4 @@
-import { Sparkles, ArrowRight, Laptop, Paintbrush, Zap, FileCode, Lightbulb } from 'lucide-react';
+import { ArrowRight, Laptop, Paintbrush, Zap, FileCode, Lightbulb } from 'lucide-react';
 
 export default function Freelance() {
   const services = [

@@ -1,4 +1,4 @@
-import { BookOpen, GraduationCap, Award, Landmark, MapPin, Trophy } from 'lucide-react';
+import { BookOpen, GraduationCap, Landmark, MapPin, Trophy } from 'lucide-react';
 
 export default function About() {
   const education = [
