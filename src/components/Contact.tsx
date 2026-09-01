@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, CheckCircle, BookOpen, AlertCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 
-// Inline brand SVGs (not available in lucide-react v1)
 const GithubIcon = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
@@ -48,7 +47,6 @@ export default function Contact() {
       ...formData,
       [name]: value
     });
-    // Clear error for that field if it exists
     if (errors[name]) {
       setErrors({
         ...errors,
@@ -61,192 +59,148 @@ export default function Contact() {
     e.preventDefault();
     if (validate()) {
       setIsSubmitting(true);
-      // Simulate form submission to backend
       setTimeout(() => {
         setIsSubmitting(false);
         setIsSubmitted(true);
         setFormData({ name: '', email: '', subject: '', message: '' });
-      }, 1500);
+      }, 1200);
     }
   };
 
   return (
     <section id="contact" className="section">
       <div className="reveal">
+        <div className="section-tag">Reach Out</div>
         <h2>Get In Touch</h2>
-        <p className="section-description">
-          Have an exciting project, freelance opportunity, or just want to say hi? Drop me a message and I'll get back to you within 24 hours.
-        </p>
       </div>
 
       <div className="contact-grid">
-        {/* Contact Info Card */}
-        <div className="contact-info-column reveal">
-          <div className="contact-info-card glass-card">
-            <h3 className="contact-info-title">Contact Channels</h3>
-            
-            <div className="info-list">
-              <a href="mailto:divyapawar8791@gmail.com" className="info-item">
-                <div className="info-icon-box">
-                  <Mail size={20} />
-                </div>
-                <div>
-                  <span className="info-label">Email Me</span>
-                  <span className="info-value">divyapawar8791@gmail.com</span>
-                </div>
-              </a>
+        {/* Info Column */}
+        <div className="contact-info-card glass-card reveal">
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 600 }}>Contact Info</h3>
+          
+          <div className="info-list">
+            <a href="mailto:divyapawar8791@gmail.com" className="info-item">
+              <div className="info-icon-box">
+                <Mail size={18} />
+              </div>
+              <div>
+                <span className="info-label">Email</span>
+                <span className="info-value">divyapawar8791@gmail.com</span>
+              </div>
+            </a>
 
-              <a href="tel:+919730473315" className="info-item">
-                <div className="info-icon-box">
-                  <Phone size={20} />
-                </div>
-                <div>
-                  <span className="info-label">Call / WhatsApp</span>
-                  <span className="info-value">+91 9730473315</span>
-                </div>
-              </a>
+            <a href="tel:+919730473315" className="info-item">
+              <div className="info-icon-box">
+                <Phone size={18} />
+              </div>
+              <div>
+                <span className="info-label">Phone</span>
+                <span className="info-value">+91 9730473315</span>
+              </div>
+            </a>
 
-              <div className="info-item">
-                <div className="info-icon-box">
-                  <MapPin size={20} />
-                </div>
-                <div>
-                  <span className="info-label">Location</span>
-                  <span className="info-value">Pune, Maharashtra, IN</span>
-                </div>
+            <div className="info-item">
+              <div className="info-icon-box">
+                <MapPin size={18} />
+              </div>
+              <div>
+                <span className="info-label">Location</span>
+                <span className="info-value">Pune, Maharashtra, IN</span>
               </div>
             </div>
+          </div>
 
-            <div className="contact-socials-group">
-              <h4 className="socials-subtitle">Direct Networks</h4>
-              <div className="socials-flex">
-                <a 
-                  href="https://linkedin.com/in/Divyapawar31" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="social-btn-round"
-                  title="LinkedIn"
-                >
-                  <LinkedinIcon size={18} />
-                  <span>LinkedIn</span>
-                </a>
-                <a 
-                  href="https://github.com/DIVYA-PAWAR-03" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="social-btn-round"
-                  title="GitHub"
-                >
-                  <GithubIcon size={18} />
-                  <span>GitHub</span>
-                </a>
-                <a 
-                  href="https://stackoverflow.com/users/divya-pawar" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="social-btn-round"
-                  title="Stack Overflow"
-                >
-                  <BookOpen size={18} />
-                  <span>StackOverflow</span>
-                </a>
-              </div>
+          <div style={{ marginTop: '2rem' }}>
+            <h4 style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.75rem', fontWeight: 500 }}>Social Profiles</h4>
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <a 
+                href="https://linkedin.com/in/Divyapawar31" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-icon-btn"
+                title="LinkedIn"
+              >
+                <LinkedinIcon size={18} />
+              </a>
+              <a 
+                href="https://github.com/DIVYA-PAWAR-03" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="social-icon-btn"
+                title="GitHub"
+              >
+                <GithubIcon size={18} />
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Contact Form Column */}
-        <div className="contact-form-column reveal">
-          <div className="contact-form-card glass-card">
-            {isSubmitted ? (
-              <div className="submission-success-area">
-                <CheckCircle size={56} className="success-icon-check float-animation" />
-                <h3>Message Sent Successfully!</h3>
-                <p>Thank you for reaching out, Divya. I will review your query and get back to you shortly.</p>
-                <button 
-                  onClick={() => setIsSubmitted(false)} 
-                  className="btn btn-secondary"
-                  style={{ marginTop: '1.5rem' }}
-                >
-                  Send another message
-                </button>
+        {/* Form Column */}
+        <div className="contact-form-card glass-card reveal">
+          {isSubmitted ? (
+            <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
+              <CheckCircle2 size={48} className="accent-link" style={{ margin: '0 auto 1rem' }} />
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>Message Sent!</h3>
+              <p style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>Thank you for reaching out. I will get back to you shortly.</p>
+              <button 
+                onClick={() => setIsSubmitted(false)} 
+                className="btn btn-secondary"
+                style={{ marginTop: '1.5rem' }}
+              >
+                Send Another Message
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="name">Your Name</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  value={formData.name} 
+                  onChange={handleChange}
+                  placeholder="John Doe"
+                />
+                {errors.name && <span style={{ color: '#ef4444', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}><AlertCircle size={12} /> {errors.name}</span>}
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="contact-form">
-                <div className="form-group-row">
-                  <div className="form-group">
-                    <label htmlFor="name">Your Name</label>
-                    <input 
-                      type="text" 
-                      id="name" 
-                      name="name" 
-                      value={formData.name} 
-                      onChange={handleChange}
-                      className={errors.name ? 'input-error' : ''}
-                      placeholder="John Doe"
-                    />
-                    {errors.name && <span className="error-msg"><AlertCircle size={12} /> {errors.name}</span>}
-                  </div>
 
-                  <div className="form-group">
-                    <label htmlFor="email">Email Address</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      name="email" 
-                      value={formData.email} 
-                      onChange={handleChange}
-                      className={errors.email ? 'input-error' : ''}
-                      placeholder="john@example.com"
-                    />
-                    {errors.email && <span className="error-msg"><AlertCircle size={12} /> {errors.email}</span>}
-                  </div>
-                </div>
+              <div className="form-group">
+                <label htmlFor="email">Email Address</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  value={formData.email} 
+                  onChange={handleChange}
+                  placeholder="john@example.com"
+                />
+                {errors.email && <span style={{ color: '#ef4444', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}><AlertCircle size={12} /> {errors.email}</span>}
+              </div>
 
-                <div className="form-group">
-                  <label htmlFor="subject">Subject (Optional)</label>
-                  <input 
-                    type="text" 
-                    id="subject" 
-                    name="subject" 
-                    value={formData.subject} 
-                    onChange={handleChange}
-                    placeholder="Freelance Project Discussion"
-                  />
-                </div>
+              <div className="form-group">
+                <label htmlFor="message">Message</label>
+                <textarea 
+                  id="message" 
+                  name="message" 
+                  rows={4}
+                  value={formData.message} 
+                  onChange={handleChange}
+                  placeholder="Tell me about your project..."
+                ></textarea>
+                {errors.message && <span style={{ color: '#ef4444', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}><AlertCircle size={12} /> {errors.message}</span>}
+              </div>
 
-                <div className="form-group">
-                  <label htmlFor="message">Your Message</label>
-                  <textarea 
-                    id="message" 
-                    name="message" 
-                    rows={5}
-                    value={formData.message} 
-                    onChange={handleChange}
-                    className={errors.message ? 'input-error' : ''}
-                    placeholder="Tell me about your project, timeline, and expectations..."
-                  ></textarea>
-                  {errors.message && <span className="error-msg"><AlertCircle size={12} /> {errors.message}</span>}
-                </div>
-
-                <button 
-                  type="submit" 
-                  className="btn btn-primary form-submit-btn" 
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <span className="spinner"></span> Sending...
-                    </>
-                  ) : (
-                    <>
-                      Send Message <Send size={16} />
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
-          </div>
+              <button 
+                type="submit" 
+                className="btn btn-primary form-submit-btn" 
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Sending...' : <>Send Message <Send size={15} /></>}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </section>
