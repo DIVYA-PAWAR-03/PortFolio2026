@@ -101,7 +101,7 @@ export default function Hero({ onShowToast }: HeroProps) {
           className="hero-content"
         >
           <p className="hero-description">
-            Computer Science Engineering student (SGPA: 9.78) with hands-on experience building scalable React.js applications, custom web dashboards, and performance-optimized frontends. Focused on clean code, responsive layout systems, and intuitive user experiences.
+            Computer Science Engineering undergraduate (SGPA: 9.78) specializing in engineering high-performance React &amp; Next.js web applications, scalable dashboard architectures, and intuitive digital experiences. Driven by clean code design, modern UI engineering, and sub-second web performance.
           </p>
 
           <div className="hero-quick-stats">
