@@ -15,8 +15,10 @@ const LinkedinIcon = ({ size = 18 }: { size?: number }) => (
 );
 
 interface ContactProps {
-  onShowToast: (msg: string) => void;
+  onShowToast?: (msg: string) => void;
 }
+
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export default function Contact({ onShowToast }: ContactProps) {
   const [formData, setFormData] = useState({
@@ -29,19 +31,35 @@ export default function Contact({ onShowToast }: ContactProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const validateField = (name: string, value: string): string => {
+    const trimmed = value.trim();
+    if (name === 'name') {
+      if (!trimmed) return "Name is required";
+      if (trimmed.length < 2) return "Name must be at least 2 characters";
+    }
+    if (name === 'email') {
+      if (!trimmed) return "Email is required";
+      if (!EMAIL_REGEX.test(trimmed)) return "Please enter a valid email address (e.g. name@domain.com)";
+    }
+    if (name === 'message') {
+      if (!trimmed) return "Message is required";
+      if (trimmed.length < 10) return "Message must be at least 10 characters";
+    }
+    return '';
+  };
+
   const validate = () => {
-    const tempErrors: Record<string, string> = {};
-    if (!formData.name.trim()) tempErrors.name = "Name is required";
-    if (!formData.email.trim()) {
-      tempErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      tempErrors.email = "Email is invalid";
-    }
-    if (!formData.message.trim()) {
-      tempErrors.message = "Message is required";
-    } else if (formData.message.trim().length < 10) {
-      tempErrors.message = "Message must be at least 10 characters";
-    }
+    const tempErrors: Record<string, string> = {
+      name: validateField('name', formData.name),
+      email: validateField('email', formData.email),
+      message: validateField('message', formData.message)
+    };
+    
+    // Remove empty error keys
+    Object.keys(tempErrors).forEach((key) => {
+      if (!tempErrors[key]) delete tempErrors[key];
+    });
+
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
@@ -53,10 +71,19 @@ export default function Contact({ onShowToast }: ContactProps) {
       [name]: value
     });
     if (errors[name]) {
+      const error = validateField(name, value);
       setErrors({
         ...errors,
-        [name]: ''
+        [name]: error
       });
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    const error = validateField(name, value);
+    if (error) {
+      setErrors((prev) => ({ ...prev, [name]: error }));
     }
   };
 
@@ -64,20 +91,24 @@ export default function Contact({ onShowToast }: ContactProps) {
     e.preventDefault();
     if (validate()) {
       setIsSubmitting(true);
+      const recipientEmail = "divyapawar8791@gmail.com";
+
       try {
-        const response = await fetch("https://formsubmit.co/ajax/divyapawar8791@gmail.com", {
+        const response = await fetch(`https://formsubmit.co/ajax/${recipientEmail}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
           },
           body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            subject: formData.subject || `Portfolio Contact Message from ${formData.name}`,
-            message: formData.message,
-            _subject: `New Portfolio Contact Message from ${formData.name}`,
-            _template: "table"
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            _replyto: formData.email.trim(),
+            subject: formData.subject.trim() || `Portfolio Contact Message from ${formData.name.trim()}`,
+            message: formData.message.trim(),
+            _subject: `New Portfolio Message from ${formData.name.trim()}`,
+            _template: "table",
+            _captcha: "false"
           })
         });
 
@@ -86,22 +117,23 @@ export default function Contact({ onShowToast }: ContactProps) {
         if (response.ok && (data.success === "true" || data.success === true)) {
           setIsSubmitting(false);
           setIsSubmitted(true);
-          onShowToast("Message sent successfully to email!");
+          onShowToast?.("message sent successfully");
           setFormData({ name: '', email: '', subject: '', message: '' });
+          setErrors({});
         } else if (data.message && data.message.toLowerCase().includes("activation")) {
           setIsSubmitting(false);
           setIsSubmitted(true);
-          onShowToast("Message submitted! Check divyapawar8791@gmail.com for form activation.");
+          onShowToast?.("message sent successfully");
           setFormData({ name: '', email: '', subject: '', message: '' });
+          setErrors({});
         } else {
-          throw new Error(data.message || "Failed to send message");
+          throw new Error(data.message || "Failed to send message via contact service");
         }
       } catch (err) {
         setIsSubmitting(false);
-        // Fallback to mailto link if direct POST is blocked or fails
-        const mailtoUrl = `mailto:divyapawar8791@gmail.com?subject=${encodeURIComponent(formData.subject || `Portfolio Contact from ${formData.name}`)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
+        // Fallback to client mailto link if POST endpoint fails or is blocked
+        const mailtoUrl = `mailto:${recipientEmail}?subject=${encodeURIComponent(formData.subject.trim() || `Portfolio Contact from ${formData.name.trim()}`)}&body=${encodeURIComponent(`Name: ${formData.name.trim()}\nEmail: ${formData.email.trim()}\n\nMessage:\n${formData.message.trim()}`)}`;
         window.location.href = mailtoUrl;
-        onShowToast("Opening mail client to deliver your message...");
       }
     }
   };
@@ -184,7 +216,7 @@ export default function Contact({ onShowToast }: ContactProps) {
               <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
                 <CheckCircle2 size={48} className="accent-link" style={{ margin: '0 auto 1rem' }} />
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>Message Sent!</h3>
-                <p style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>Thank you for reaching out. I will get back to you shortly.</p>
+                <p style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>Thank you for reaching out. Your message has been sent to divyapawar8791@gmail.com and I will get back to you shortly.</p>
                 <button 
                   onClick={() => setIsSubmitted(false)} 
                   className="btn btn-secondary"
@@ -194,44 +226,77 @@ export default function Contact({ onShowToast }: ContactProps) {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} noValidate>
                 <div className="form-group">
-                  <label htmlFor="name">Your Name</label>
+                  <label htmlFor="name">Your Name *</label>
                   <input 
                     type="text" 
                     id="name" 
                     name="name" 
                     value={formData.name} 
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder="John Doe"
+                    className={errors.name ? 'input-error' : ''}
+                    aria-invalid={!!errors.name}
                   />
-                  {errors.name && <span style={{ color: '#ef4444', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}><AlertCircle size={12} /> {errors.name}</span>}
+                  {errors.name && (
+                    <span className="form-error-msg">
+                      <AlertCircle size={12} /> {errors.name}
+                    </span>
+                  )}
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="email">Email Address</label>
+                  <label htmlFor="email">Email Address *</label>
                   <input 
                     type="email" 
                     id="email" 
                     name="email" 
                     value={formData.email} 
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder="john@example.com"
+                    className={errors.email ? 'input-error' : ''}
+                    aria-invalid={!!errors.email}
                   />
-                  {errors.email && <span style={{ color: '#ef4444', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}><AlertCircle size={12} /> {errors.email}</span>}
+                  {errors.email && (
+                    <span className="form-error-msg">
+                      <AlertCircle size={12} /> {errors.email}
+                    </span>
+                  )}
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="message">Message</label>
+                  <label htmlFor="subject">Subject (Optional)</label>
+                  <input 
+                    type="text" 
+                    id="subject" 
+                    name="subject" 
+                    value={formData.subject} 
+                    onChange={handleChange}
+                    placeholder="Project Inquiry / Collaboration"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="message">Message *</label>
                   <textarea 
                     id="message" 
                     name="message" 
                     rows={4}
                     value={formData.message} 
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder="Tell me about your project..."
+                    className={errors.message ? 'input-error' : ''}
+                    aria-invalid={!!errors.message}
                   ></textarea>
-                  {errors.message && <span style={{ color: '#ef4444', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}><AlertCircle size={12} /> {errors.message}</span>}
+                  {errors.message && (
+                    <span className="form-error-msg">
+                      <AlertCircle size={12} /> {errors.message}
+                    </span>
+                  )}
                 </div>
 
                 <button 

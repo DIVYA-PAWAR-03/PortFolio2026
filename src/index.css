@@ -904,6 +904,25 @@ strong, b, .font-bold, .font-extrabold, .font-black {
 
 .form-group input:focus, .form-group textarea:focus {
   background: var(--bg-shade-hover);
+  box-shadow: 0 0 0 2px var(--accent-blue-soft);
+}
+
+.form-group input.input-error, .form-group textarea.input-error {
+  box-shadow: 0 0 0 1.5px #ef4444;
+  background: rgba(239, 68, 68, 0.06);
+}
+
+.form-group input.input-error:focus, .form-group textarea.input-error:focus {
+  box-shadow: 0 0 0 2px #ef4444;
+}
+
+.form-error-msg {
+  color: #ef4444;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
 }
 
 .form-submit-btn {
