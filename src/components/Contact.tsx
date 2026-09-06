@@ -60,16 +60,49 @@ export default function Contact({ onShowToast }: ContactProps) {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
       setIsSubmitting(true);
-      setTimeout(() => {
+      try {
+        const response = await fetch("https://formsubmit.co/ajax/divyapawar8791@gmail.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject || `Portfolio Contact Message from ${formData.name}`,
+            message: formData.message,
+            _subject: `New Portfolio Contact Message from ${formData.name}`,
+            _template: "table"
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && (data.success === "true" || data.success === true)) {
+          setIsSubmitting(false);
+          setIsSubmitted(true);
+          onShowToast("Message sent successfully to email!");
+          setFormData({ name: '', email: '', subject: '', message: '' });
+        } else if (data.message && data.message.toLowerCase().includes("activation")) {
+          setIsSubmitting(false);
+          setIsSubmitted(true);
+          onShowToast("Message submitted! Check divyapawar8791@gmail.com for form activation.");
+          setFormData({ name: '', email: '', subject: '', message: '' });
+        } else {
+          throw new Error(data.message || "Failed to send message");
+        }
+      } catch (err) {
         setIsSubmitting(false);
-        setIsSubmitted(true);
-        onShowToast("Message sent successfully!");
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      }, 1000);
+        // Fallback to mailto link if direct POST is blocked or fails
+        const mailtoUrl = `mailto:divyapawar8791@gmail.com?subject=${encodeURIComponent(formData.subject || `Portfolio Contact from ${formData.name}`)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
+        window.location.href = mailtoUrl;
+        onShowToast("Opening mail client to deliver your message...");
+      }
     }
   };
 
