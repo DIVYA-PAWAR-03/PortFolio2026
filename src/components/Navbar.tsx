@@ -7,54 +7,6 @@ interface NavbarProps {
   onOpenCommandPalette: () => void;
 }
 
-const LogoIcon = () => (
-  <svg 
-    width="34" 
-    height="34" 
-    viewBox="0 0 40 40" 
-    fill="none" 
-    xmlns="http://www.w3.org/2000/svg"
-    className="logo-icon-svg"
-  >
-    <defs>
-      <linearGradient id="logo-grad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="var(--accent-blue)" />
-        <stop offset="100%" stopColor="#8b5cf6" />
-      </linearGradient>
-      <linearGradient id="logo-bg-grad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="var(--accent-blue)" stopOpacity="0.16" />
-        <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.08" />
-      </linearGradient>
-    </defs>
-    <rect 
-      x="1" 
-      y="1" 
-      width="38" 
-      height="38" 
-      rx="10" 
-      fill="url(#logo-bg-grad)" 
-      stroke="url(#logo-grad)" 
-      strokeWidth="1.5" 
-    />
-    {/* Letter D */}
-    <path 
-      d="M 12 11 H 20 C 23.5 11 26 13.2 26 17.5 C 26 21.8 23.5 24 20 24 H 12 V 11 Z" 
-      stroke="var(--text-primary)" 
-      strokeWidth="2.5" 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
-    />
-    {/* Letter P */}
-    <path 
-      d="M 19 19 H 26 C 28.5 19 30 20.8 30 23.2 C 30 25.6 28.5 27.5 26 27.5 H 19 V 29.5" 
-      stroke="url(#logo-grad)" 
-      strokeWidth="2.5" 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
-    />
-  </svg>
-);
-
 export default function Navbar({ currentTheme, toggleTheme, onOpenCommandPalette }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -73,11 +25,8 @@ export default function Navbar({ currentTheme, toggleTheme, onOpenCommandPalette
   return (
     <header className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
-        <a href="#home" className="nav-logo" aria-label="Divya Pawar Portfolio">
-          <LogoIcon />
-          <span className="logo-brand-text">
-            Divya<span className="logo-accent-dot">.</span>Pawar
-          </span>
+        <a href="#home" className="nav-logo">
+          <span>DP</span>
         </a>
 
         {/* Desktop Links */}
