@@ -43,6 +43,16 @@ const allProjects: (ProjectDetail & { category: string; featured: boolean; isFor
     featured: true
   },
   {
+    title: "World Clock & Global Directory",
+    description: "Responsive multi-timezone tracking and country directory application featuring live clock synchronization, city search, continent filters, A-Z index, and 12/24-hour time toggles.",
+    tags: ["JavaScript", "HTML5", "CSS3", "Web APIs", "Responsive Design"],
+    liveLink: "https://world-clock-app-ten.vercel.app",
+    githubLink: "https://github.com/DIVYA-PAWAR-03/world-clock-app",
+    stats: ["Real-time Multi-Timezone", "Global Country Index"],
+    category: "tools",
+    featured: true
+  },
+  {
     title: "Free Minimal Resume Builder",
     description: "Fast-loading, mobile-friendly resume editing platform focused on quick structured entries, print previews, and high layout accessibility.",
     tags: ["React", "Vite", "Responsive Design", "Web Printing"],
