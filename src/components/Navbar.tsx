@@ -64,10 +64,8 @@ export default function Navbar({ currentTheme, toggleTheme, onOpenCommandPalette
             className="theme-toggle"
             aria-label="Open Command Palette"
             title="Open Command Palette (⌘K)"
-            style={{ width: 'auto', padding: '0 10px', borderRadius: '8px', fontSize: '0.8rem', gap: '5px' }}
           >
             <Command size={14} />
-            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>⌘K</span>
           </button>
 
           <button 
