@@ -9,7 +9,7 @@ export default function Skills() {
       id: 'frontend',
       title: 'Frontend & UI',
       icon: <Layout size={18} />,
-      skills: ['React JS', 'Redux', 'Zustand', 'Zod', 'Next.js', 'React Native', 'Tailwind CSS', 'Bootstrap', 'HTML', 'XML', 'JSON']
+      skills: ['React JS', 'Next.js', 'Vite', 'Redux', 'Zustand', 'Shadcn UI', 'Tailwind CSS', 'Bootstrap', 'HTML', 'XML', 'JSON']
     },
     {
       id: 'languages',
@@ -21,7 +21,7 @@ export default function Skills() {
       id: 'backend',
       title: 'Backend & Databases',
       icon: <Database size={18} />,
-      skills: ['Node.js', 'Express.js', 'SQL', 'MySQL', 'MongoDB']
+      skills: ['Node.js', 'Express.js', 'RESTful APIs', 'SQL', 'MySQL', 'MongoDB']
     },
     {
       id: 'aiml',
@@ -39,7 +39,7 @@ export default function Skills() {
       id: 'tools',
       title: 'Tools & Platforms',
       icon: <Wrench size={18} />,
-      skills: ['Git', 'GitHub', 'Docker', 'Postman', 'Cursor', 'AWS EC2', 'Agile', 'Figma', 'Linux', 'Windows']
+      skills: ['Git', 'GitHub', 'Vercel', 'Docker', 'Postman', 'Cursor', 'AWS EC2', 'CI/CD', 'Agile', 'Figma', 'Linux', 'Windows']
     }
   ];
 

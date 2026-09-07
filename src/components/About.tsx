@@ -1,4 +1,4 @@
-import { BookOpen, GraduationCap, Landmark, MapPin, Trophy } from 'lucide-react';
+import { BookOpen, GraduationCap, Landmark, MapPin, Trophy, Award } from 'lucide-react';
 
 export default function About() {
   const education = [
@@ -44,6 +44,19 @@ export default function About() {
     }
   ];
 
+  const certifications = [
+    {
+      title: "Full-Stack Web Development & React Architecture",
+      role: "Professional Skill Certification",
+      desc: "Demonstrated proficiency in modern web apps, component state management, and optimized API integration."
+    },
+    {
+      title: "AI Model Evaluation & Prompt Engineering",
+      role: "Specialized Technical Competency",
+      desc: "Skilled in prompt optimization, LLM benchmarking, dataset labeling, and AI-assisted workflows."
+    }
+  ];
+
   return (
     <section id="about" className="section">
       <div className="reveal">
@@ -80,7 +93,7 @@ export default function About() {
 
       <div className="reveal" style={{ marginTop: '3rem' }}>
         <div className="section-tag">Honors & Competitions</div>
-        <h2>Achievements</h2>
+        <h2>Achievements & Certifications</h2>
         
         <div className="achievements-list">
           {achievements.map((item, index) => (
@@ -88,6 +101,20 @@ export default function About() {
               <div className="achievement-header">
                 <div className="timeline-icon">
                   <Trophy size={18} />
+                </div>
+                <div>
+                  <h3 className="timeline-title">{item.title}</h3>
+                  <span className="achievement-badge">{item.role}</span>
+                </div>
+              </div>
+              <p className="timeline-desc" style={{ marginTop: '0.5rem' }}>{item.desc}</p>
+            </div>
+          ))}
+          {certifications.map((item, index) => (
+            <div key={index} className="achievement-card glass-card">
+              <div className="achievement-header">
+                <div className="timeline-icon">
+                  <Award size={18} />
                 </div>
                 <div>
                   <h3 className="timeline-title">{item.title}</h3>
