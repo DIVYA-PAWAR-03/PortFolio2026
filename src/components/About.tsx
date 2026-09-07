@@ -91,7 +91,7 @@ export default function About() {
         ))}
       </div>
 
-      <div className="reveal" style={{ marginTop: '3rem' }}>
+      <div className="reveal" style={{ marginTop: '10rem' }}>
         <div className="section-tag">Honors & Competitions</div>
         <h2>Achievements & Certifications</h2>
         
